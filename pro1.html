@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Management Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<style>
+    /* Auto-Suggest Employees Button Styling */
+#autoSuggestBtn {
+    display: block;
+    margin: 20px auto;  /* Centers the button horizontally */
+    background: rgba(72, 239, 163, 0.1); /* Subtle background */
+    border: 1px solid rgba(72, 239, 163, 0.25); /* Lighter border for a more refined look */
+    backdrop-filter: blur(12px); /* Slightly stronger blur effect */
+    color: #48efa3; /* Neon green text color */
+    padding: 14px 28px; /* Slightly larger padding for a more refined feel */
+    border-radius: 15px; /* Rounded corners */
+    font-size: 18px; /* Larger text size */
+    font-weight: 600; /* Bold font weight for more emphasis */
+    text-transform: uppercase; /* Uppercase text for a professional and assertive look */
+    letter-spacing: 1px; /* Slight letter spacing for a cleaner look */
+    cursor: pointer;
+    transition: all 0.3s ease; /* Smooth transitions */
+    box-shadow: 0 0 18px rgba(72, 239, 163, 0.2); /* Subtle outer glow */
+    border-radius: 12px;
+    font-family: 'Poppins', sans-serif; /* Clean and professional font */
+}
+
+/* Hover Effect */
+#autoSuggestBtn:hover {
+    background: rgba(72, 239, 163, 0.25); /* Slightly stronger background on hover */
+    box-shadow: 0 0 30px rgba(72, 239, 163, 0.4); /* Increased shadow effect */
+    transform: translateY(-4px); /* Slight upward motion on hover */
+    color: #ffffff; /* Changes text color on hover for contrast */
+    border: 1px solid rgba(72, 239, 163, 0.5); /* Stronger border on hover */
+}
+
+/* Focus Effect */
+#autoSuggestBtn:focus {
+    outline: none; /* Removes default outline */
+    border: 2px solid #6366f1; /* Soft blue outline on focus */
+    background: rgba(72, 239, 163, 0.3); /* Softer background on focus */
+}
+
+/* Active Button Press */
+#autoSuggestBtn:active {
+    transform: translateY(-1px); /* Slight press effect */
+    box-shadow: 0 0 18px rgba(72, 239, 163, 0.3); /* Slight shadow reduction on active */
+}
+
+
+</style>
+<body>
+    <header class="header">
+        <div class="logo">
+            <h1>Admin Dashboard</h1>
+        </div>
+    </header>
+
+    <main>
+        <section class="management-dashboard">
+
+            <!-- Auto-Suggest Employees Button -->
+            <button id="autoSuggestBtn" style="margin-bottom: 15px; padding: 10px 20px; background: #4CAF50; border: none; border-radius: 5px; color: white; cursor: pointer;" onclick="window.location.href='suggest-employee.html'">
+                🔍 Auto-Suggest Employees
+            </button>
+            <br>
+            
+
+            <h2>Pending Training Requests</h2>
+            <table id="pending-requests">
+                <thead>
+                    <tr>
+                        <th>Employee Name</th>
+                        <th>Email</th>
+                        <th>Department</th>
+                        <th>Training Course</th>
+                        <th>Training Level</th>
+                        <th>Preferred Date</th>
+                        <th>Preferred Time</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Pending training requests will be loaded here -->
+                </tbody>
+            </table>
+
+            <h2>Completed Training Schedules</h2>
+            <table id="completed-requests">
+                <thead>
+                    <tr>
+                        <th>Employee Name</th>
+                        <th>Email</th>
+                        <th>Department</th>
+                        <th>Training Course</th>
+                        <th>Training Level</th>
+                        <th>Scheduled Date</th>
+                        <th>Scheduled Time</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Completed training requests will be loaded here -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 LLM Solutions. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('http://localhost:3000/get-training-requests')
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Fetched Data:", data);
+                    const pendingTableBody = document.querySelector('#pending-requests tbody');
+                    const completedTableBody = document.querySelector('#completed-requests tbody');
+
+                    pendingTableBody.innerHTML = '';
+                    completedTableBody.innerHTML = '';
+
+                    data.forEach(request => {
+                        const row = document.createElement('tr');
+
+                        if (request.scheduled_date && request.scheduled_time) {
+                            row.innerHTML = `
+                                <td>${request.employee_name}</td>
+                                <td>${request.email}</td>
+                                <td>${request.department}</td>
+                                <td>${request.training_course}</td>
+                                <td>${request.training_level}</td>
+                                <td>${request.scheduled_date}</td>
+                                <td>${request.scheduled_time}</td>
+                                <td>
+                                    <button class="delete-btn" data-id="${request.id}">🗑 Delete</button>
+                                </td>
+                            `;
+                            completedTableBody.appendChild(row);
+                        } else {
+                            row.innerHTML = `
+                                <td>${request.employee_name}</td>
+                                <td>${request.email}</td>
+                                <td>${request.department}</td>
+                                <td>${request.training_course}</td>
+                                <td>${request.training_level}</td>
+                                <td>${request.preferred_date}</td>
+                                <td>${request.preferred_time}</td>
+                                <td>
+                                    <input type="hidden" class="request-id" value="${request.id}">
+                                    <input type="date" class="schedule-date">
+                                    <input type="time" class="schedule-time">
+                                    <button class="schedule-btn">✅ Schedule</button>
+                                    <button class="delete-btn" data-id="${request.id}">🗑 Delete</button>
+                                </td>
+                            `;
+                            pendingTableBody.appendChild(row);
+                        }
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        });
+
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('schedule-btn')) {
+                const row = event.target.closest('tr');
+                const id = row.querySelector('.request-id').value;
+                const email = row.children[1].textContent;
+                const date = row.querySelector('.schedule-date').value;
+                const time = row.querySelector('.schedule-time').value;
+
+                if (!date || !time) {
+                    return alert('Please select a date and time before scheduling.');
+                }
+
+                fetch('http://localhost:3000/schedule-training', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id, email, date, time })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    if (data.success) {
+                        location.reload();
+                    }
+                })
+                .catch(error => {
+                    console.error("Error scheduling training:", error);
+                    alert('Error scheduling training.');
+                });
+            }
+
+            if (event.target.classList.contains('delete-btn')) {
+                const id = event.target.dataset.id;
+                if (!confirm("Are you sure you want to delete this training request?")) return;
+
+                fetch('http://localhost:3000/delete-training', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    if (data.success) {
+                        location.reload();
+                    }
+                })
+                .catch(error => {
+                    console.error("Error deleting training:", error);
+                    alert('Error deleting training.');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

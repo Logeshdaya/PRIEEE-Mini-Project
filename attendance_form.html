@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mark Attendance</title>
+    <link rel="stylesheet" href="pro.css">
+</head>
+<style>
+/* Reset styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Centering the form on the left */
+body {
+    display: flex;
+    justify-content: flex-start;  /* Align the form to the left */
+    align-items: flex-start;  /* Align at the top */
+    height: 100vh;
+    background-image: url('images/Dark Blue and White Minimalist Company Profile Presentation.png');  /* Background image */
+    background-size: cover;
+    background-position: center;
+    flex-direction: column;
+    padding-left: 40px;  /* Adjusted left padding for form positioning */
+    padding-top: 40px;  /* Added top padding to avoid sticking to the top */
+}
+
+/* Attendance container */
+.attendance-container {
+    background: rgba(255, 255, 255, 0.1);  /* Lighter background for professionalism */
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.2);  /* Softer border */
+    border-radius: 15px;
+    padding: 30px;
+    width: 380px;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.1), 0 0 30px rgba(0, 255, 255, 0.05);  /* Subtle glowing shadow */
+    transition: transform 0.3s ease-in-out;
+    margin-top: 50px;  /* Ensuring spacing from top */
+}
+.attendance-container h2 {
+text-align: center;
+font-size: 1.8rem;
+font-weight: 700;
+color: #e0e0e0;
+margin: 1.5rem 0;
+background: linear-gradient(90deg, #f8f9f9, #fbfbfc); /* Blue gradient for text */
+background-clip: text;
+-webkit-text-fill-color: transparent;
+text-shadow: 0 0 10px rgba(0, 170, 255, 0.5);
+}
+
+/* Input fields */
+.attendance-container label {
+    display: block;
+    text-align: left;
+    font-weight: 500;
+    margin: 10px 0 5px;
+    color: #ffffff;  /* Changed label text color to white */
+}
+
+.attendance-container input,
+.attendance-container select {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.3);  /* Softer border for a more clean look */
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;  /* Changed input text color to white */
+    outline: none;
+    transition: 0.3s;
+}
+
+.attendance-container input:focus,
+.attendance-container select:focus {
+    box-shadow: 0 0 10px #00aaff;  /* Subtle blue glow */
+    border-color: #00aaff;  /* Blue border on focus */
+}
+
+/* Submit button */
+.attendance-container button {
+    width: 100%;
+    background: linear-gradient(45deg, #00aaff, #004f6b);  /* Soft blue gradient */
+    color: #fff;  /* Changed button text color to white */
+    font-size: 18px;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 0 12px #00aaff;
+    transition: 0.3s;
+    margin-top: 20px;  /* Ensuring proper space above the button */
+}
+
+.attendance-container button:hover {
+    background: linear-gradient(45deg, #004f6b, #00aaff);
+    transform: scale(1.05);
+    box-shadow: 0 0 18px #00aaff, 0 0 30px #00aaff;
+}
+
+/* Container hover animation */
+.attendance-container:hover {
+    transform: scale(1.02);
+}
+
+/* Back to Dashboard button */
+.back-home {
+    text-align: center;
+    margin-top: 40px;  /* Top margin remains the same */
+    margin-bottom: 40px;  /* Added bottom margin for extra space below */
+}
+
+.back-home-btn {
+    display: inline-block;
+    padding: 12px 30px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #00aaff;  /* Blue color for the button */
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid #00aaff;
+    border-radius: 12px;
+    text-decoration: none;
+    box-shadow: 0 0 12px rgba(0, 170, 255, 0.4);  /* Soft blue glow */
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    margin-top: 10px;  /* Top margin remains the same */
+    margin-bottom: 40px;  /* Added bottom margin for extra space below */
+    margin-left: 90px;
+}
+
+.back-home-btn:hover {
+    background: #00aaff;
+    color: #000;
+    box-shadow: 0 0 20px #00aaff, 0 0 30px #00aaff;
+}
+
+</style>
+<body>
+    <div class="attendance-container">
+        <h2>Mark Your Attendance</h2>
+        <form id="attendance-form">
+            <label for="employee-name">Employee Email:</label>
+            <input type="text" id="employee-name" name="employee-email" required readonly>
+
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
+
+            <label for="status">Status:</label>
+            <select id="status" name="status" required>
+                <option value="Present">Present</option>
+                <option value="Absent">Absent</option>
+                <option value="On Leave">On Leave</option>
+            </select>
+
+            <button type="submit">Submit Attendance</button>
+        </form>
+    </div>
+
+    <!-- Back to Dashboard Button -->
+    <div class="back-home">
+        <a href="pro.html" class="back-home-btn">Dashboard</a>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const email = localStorage.getItem("userEmail"); 
+            
+            if (!email || email === "undefined" || email === "null") {
+                console.warn("No email found! Redirecting to login...");
+                window.location.href = "login.html"; 
+            } else {
+                document.getElementById("employee-name").value = email;
+            }
+    
+            document.getElementById("attendance-form").addEventListener("submit", async function(event) {
+                event.preventDefault();
+    
+                const attendanceData = {
+                    employee_email: email, 
+                    date: document.getElementById("date").value,
+                    status: document.getElementById("status").value
+                };
+    
+                try {
+                    const response = await fetch("http://localhost:3003/submit-attendance", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(attendanceData),
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        alert(data.message); // Show success message
+                        window.location.href = "pro.html"; // ✅ Redirect after successful submission
+                    } else {
+                        alert("Error: " + data.message);
+                    }
+                } catch (error) {
+                    console.error("Error submitting attendance:", error);
+                    alert("Failed to submit attendance. Please try again.");
+                }
+            });
+        });
+    </script>
+</body>
+</html>

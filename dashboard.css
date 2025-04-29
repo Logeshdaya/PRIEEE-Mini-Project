@@ -1,0 +1,193 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to right, #f5f7fa, #c3cfe2);
+    color: #333;
+}
+
+/* Header Section */
+.header {
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+    color: #ffffff;
+    padding: 20px;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 600;
+    border-radius: 10px 10px 0 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Dashboard */
+.management-dashboard {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fafafa;
+    margin-top: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+thead {
+    background: #4facfe;
+    color: #ffffff;
+    text-align: left;
+}
+
+th, td {
+    padding: 16px 20px;
+    border-bottom: 1px solid #ddd;
+    font-size: 1rem;
+}
+
+tr:hover {
+    background-color: #f1f5f9;
+}
+
+/* Input fields */
+.schedule-date, .schedule-time {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: #f9f9f9;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Buttons */
+.schedule-btn {
+    background: linear-gradient(to right, #28a745, #218838);
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.schedule-btn:hover {
+    background: linear-gradient(to right, #218838, #28a745);
+    transform: translateY(-2px);
+}
+
+/* Delete Button */
+.delete-btn {
+    background: linear-gradient(to right, #e53935, #d32f2f);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.delete-btn:hover {
+    background: linear-gradient(to right, #d32f2f, #b71c1c);
+    transform: translateY(-2px);
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 1rem;
+    color: #777;
+    background: #f1f1f1;
+    margin-top: 30px;
+    border-radius: 0 0 10px 10px;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-thumb {
+    background: #4facfe;
+    border-radius: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #e0e0e0;
+}
+
+/* Dropdown */
+#courseSelect {
+    width: 100%;
+    padding: 12px;
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+/* Fetch Employees Button */
+#fetchEmployeesBtn {
+    background: linear-gradient(to right, #00c6ff, #0072ff);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+#fetchEmployeesBtn:hover {
+    background: linear-gradient(to right, #0072ff, #00c6ff);
+    transform: translateY(-2px);
+}
+
+/* Employee List */
+#eligibleEmployees ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+#eligibleEmployees ul li {
+    background: #f9f9f9;
+    margin-bottom: 10px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    transition: background 0.3s;
+}
+
+#eligibleEmployees ul li:hover {
+    background: #eef2f7;
+}
+
+#eligibleEmployees ul li span {
+    background: #4facfe;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+}
+
+/* General h2 heading */
+h2 {
+    text-align: center;
+    font-weight: 600;
+    color: #333;
+}

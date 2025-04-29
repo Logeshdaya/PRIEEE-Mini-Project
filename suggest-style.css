@@ -1,0 +1,160 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+    background: url('images/White and Red Company Animated Presentation.gif') no-repeat center center/cover;
+    font-family: 'Poppins', sans-serif;
+    color: #fff; /* Set text color to white globally */
+    background-attachment: fixed;
+}
+
+/* Container Styling */
+.container {
+    background: rgba(255, 255, 255, 0.15); /* semi-transparent white */
+    border: 1px solid rgba(255, 255, 255, 0.25); /* light border */
+    backdrop-filter: blur(15px); /* glass effect */
+    -webkit-backdrop-filter: blur(15px); /* for Safari support */
+    border-radius: 18px;
+    padding: 35px 30px;
+    width: 100%;
+    max-width: 620px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    transition: all 0.3s ease;
+    color: #fff; /* Ensure text is white inside the container */
+}
+
+/* Heading */
+h1 {
+    font-size: 26px;
+    margin-bottom: 25px;
+    font-weight: 700;
+    color: #fff; /* White heading */
+}
+
+/* Selector Section */
+.selector {
+    margin-bottom: 25px;
+}
+
+.selector label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff; /* White label text */
+}
+
+/* Dropdown */
+#courseSelect {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #d1d5db;
+    background: #f9fafb;
+    font-size: 1rem;
+    color: #111827;
+    transition: border 0.3s;
+}
+
+#courseSelect:focus {
+    border-color: #6366f1;
+    background: #ffffff;
+}
+
+/* Fetch Employees Button */
+#fetchEmployeesBtn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 12px rgba(99, 102, 241, 0.3);
+}
+
+#fetchEmployeesBtn:hover {
+    background: linear-gradient(135deg, #4f46e5, #4338ca);
+    box-shadow: 0 8px 18px rgba(99, 102, 241, 0.4);
+    transform: translateY(-3px);
+}
+
+/* Employee List */
+.employee-list ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.employee-list li {
+    background: #f1f5f9;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    margin: 10px 0;
+    padding: 14px;
+    text-align: left;
+    font-weight: 500;
+    color: black; /* White text for employee list items */
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.employee-list li:hover {
+    background: #e0e7ff;
+    transform: scale(1.02);
+}
+
+/* Date and Time Inputs */
+input[type="date"],
+input[type="time"] {
+    width: 45%;
+    margin: 10px 2%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #d1d5db;
+    background: #f9fafb;
+    font-size: 1rem;
+    color: #111827;
+    transition: border-color 0.3s;
+}
+
+input[type="date"]:focus,
+input[type="time"]:focus {
+    border-color: #6366f1;
+    background: #ffffff;
+}
+
+/* Schedule Button */
+#scheduleBtn {
+    margin-top: 15px;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 12px rgba(16, 185, 129, 0.3);
+}
+
+#scheduleBtn:hover {
+    background: linear-gradient(135deg, #059669, #047857);
+    box-shadow: 0 8px 18px rgba(16, 185, 129, 0.4);
+    transform: translateY(-3px);
+}

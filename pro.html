@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corporate Training Dashboard</title>
+    <link rel="stylesheet" href="pro.css"> 
+    <script src="script.js" defer></script>
+</head>
+<style>
+    .notification-dropdown {
+    position: absolute;
+    right: 10px;
+    top: 60px;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 300px;
+    display: none; /* hidden by default */
+    list-style: none;
+    padding: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.notification-dropdown li {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.notification-dropdown li:last-child {
+    border-bottom: none;
+}
+
+</style>
+<body>
+    <header class="header">
+        <div class="logo">
+            <h1>LLM Solutions</h1>
+        </div>
+        <nav class="nav">
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#courses">Courses</a></li>
+                <li><a href="progress.html">Progress</a></li>
+                <li><a href="attendance.html">Attendance</a></li>
+                <li><a href="admin-calender.html">Calender</a></li>
+
+            </ul>
+        </nav>
+        <div class="profile">
+            <span id="user-profile"></span> 
+            <button onclick="logout()" class="logout-btn">Logout</button>
+        </div>
+
+        <!-- Notification Bell -->
+       <!-- Notification Bell -->
+       <div class="notification">
+        <span id="notification-bell" class="has-notifications">🔔</span>
+        <ul id="notification-dropdown" class="notification-dropdown">
+            <!-- Notifications will be dynamically loaded here -->
+            <li id="clear-notifications" style="text-align:center; padding: 10px; cursor:pointer; color:red; font-weight:bold;">Clear All</li>
+        </ul>
+    </div>
+    
+    </header>
+    <section id="home" style="background-color: white; padding: 20px;">
+        <div class="section-content">
+            <img src="images\Screenshot 2025-04-09 225943.png" alt="LLM Group" class="section-image">
+            <img1 src="images/1.jpg" alt="LLM Group" class="section-image">
+            <h1 class="section-description">
+                Welcome to the LLM Corporate Training Dashboard!
+Your growth is our priority. Here at LLM Solutions, we believe that continuous learning is the key to success. This platform is your one-stop hub to explore new training sessions, track your progress, and climb the ladder of success. Whether you're upskilling through personalized programs or diving into fresh learning resources, everything you need is just a click away.
+            </h1>
+        </div>
+    </section>
+    
+    <main>
+            <section id="courses" class="overview">
+                <div class="overview-item">
+                    <h2>Training Enrollment</h2>
+                    <div id="recommended-courses">
+                        <form id="recommendation-form">
+                            <label for="employee-name">Employee Name:</label>
+                            <input type="text" id="employee-name" name="employee-name" required>
+                            
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" required>
+    
+                            <label for="department">Department:</label>
+                            <input type="text" id="department" name="department" required>
+    
+                            <label for="job_title">Job Title:</label>
+                            <input type="text" id="job_title" name="job_title" required> <!-- FIXED -->
+    
+                            <label for="training_course">Desired Training Course:</label>
+                            <select id="training_course" name="training_course" required>
+                                <option value="leadership">Leadership Development</option>
+                                <option value="excel">Advanced Excel</option>
+                                <option value="project_management">Project Management</option>
+                                <option value="communication">Effective Communication</option>
+                                <option value="customer_service">Customer Service Excellence</option>
+                            </select>
+    
+                            <label for="training_level">Training Level:</label>
+                            <select id="training_level" name="training_level" required>
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate">Intermediate</option>
+                                <option value="advanced">Advanced</option>
+                            </select>
+    
+                            <label for="training_format">Training Format:</label>
+                            <select id="training_format" name="training_format" required>
+                                <option value="online">Online</option>
+                                <option value="in_person">In-Person</option>
+                                <option value="hybrid">Hybrid</option>
+                            </select>
+    
+                            <label for="preferred_date">Preferred Training Date(s):</label>
+                            <input type="date" id="preferred_date" name="preferred_date" required>
+    
+                            <label for="preferred_time">Preferred Training Time:</label>
+                            <select id="preferred_time" name="preferred_time" required>
+                                <option value="morning">Morning</option>
+                                <option value="afternoon">Afternoon</option>
+                                <option value="flexible">Flexible</option>
+                            </select>
+    
+                            <button type="submit">Submit for Training</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="scheduled-section">
+                    <h2>Scheduled Sessions</h2>
+                    <table id="scheduled-table">
+                      <thead>
+                        <tr>
+                          <th>Employee</th>
+                          <th>Date</th>
+                          <th>Time</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <!-- Dynamically loaded rows -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+            </section>
+        </main>
+    
+        <footer class="footer">
+            <div class="footer-content">
+                <p>&copy; LLM Solutions. All Rights Reserved.</p>
+            </div>
+        </footer>
+        <!-- ✅ Custom Message Box -->
+  <div id="custom-alert">Submitted successfully. Kindly check your mail for further information.</div>
+
+        <script>
+            document.getElementById("recommendation-form").addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const formData = {
+        employee_name: document.getElementById("employee-name").value,
+        email: document.getElementById("email").value,
+        department: document.getElementById("department").value,
+        job_title: document.getElementById("job_title").value,
+        training_course: document.getElementById("training_course").value,
+        training_level: document.getElementById("training_level").value,
+        training_format: document.getElementById("training_format").value,
+        preferred_date: document.getElementById("preferred_date").value,
+        preferred_time: document.getElementById("preferred_time").value,
+      };
+
+      fetch("http://localhost:3000/submit-training", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          showCustomAlert();
+        })
+        .catch((error) => {
+          console.error("Error submitting form:", error);
+          alert("Failed to submit form.");
+        });
+    });
+
+    function showCustomAlert() {
+  const alertBox = document.getElementById("custom-alert");
+  
+  // Show the alert with fade-in effect
+  alertBox.style.opacity = "1";
+  alertBox.style.visibility = "visible";
+
+  // Hide after 5 seconds
+  setTimeout(() => {
+    alertBox.style.opacity = "0";
+    alertBox.style.visibility = "hidden";
+  }, 5000);
+}
+
+
+
+    function fetchScheduledSessions() {
+        fetch("http://localhost:3000/get-scheduled-training")
+            .then((res) => res.json())
+            .then((data) => {
+                const tbody = document.querySelector("#scheduled-table tbody");
+                tbody.innerHTML = "";
+
+                data.forEach((item) => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${item.employee_name}</td>
+                        <td>${item.scheduled_date}</td>
+                        <td>${item.scheduled_time}</td>
+                        <td><button class="attend-btn" onclick="alert('Joining session for ${item.employee_name}')">Attend</button></td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            })
+            .catch((err) => {
+                console.error("Error loading scheduled sessions:", err);
+            });
+    }
+
+    // ✅ This will auto-run the session loader after page load
+    window.addEventListener("DOMContentLoaded", () => {
+        fetchScheduledSessions();
+    });
+
+    // Notifications (Optional)
+    function loadNotifications() {
+      fetch("http://localhost:3000/get-scheduled-training")
+        .then((res) => res.json())
+        .then((data) => {
+          const dropdown = document.getElementById("notification-dropdown");
+          const clearBtn = document.getElementById("clear-notifications");
+          dropdown.innerHTML = "";
+          dropdown.appendChild(clearBtn);
+
+          if (data.length > 0) {
+            data.forEach((item) => {
+              const li = document.createElement("li");
+              li.textContent = `${item.employee_name} - ${item.scheduled_date} at ${item.scheduled_time}`;
+              dropdown.insertBefore(li, clearBtn);
+            });
+          } else {
+            const li = document.createElement("li");
+            li.textContent = "No notifications";
+            li.style.textAlign = "center";
+            li.style.color = "gray";
+            dropdown.insertBefore(li, clearBtn);
+          }
+
+          clearBtn.onclick = () => {
+            const items = dropdown.querySelectorAll("li:not(#clear-notifications)");
+            items.forEach((item) => item.remove());
+            const li = document.createElement("li");
+            li.textContent = "No notifications";
+            li.style.textAlign = "center";
+            li.style.color = "gray";
+            dropdown.insertBefore(li, clearBtn);
+          };
+        });
+    }
+
+    loadNotifications();
+
+    
+        </script>        
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Progress</title>
+    <link rel="stylesheet" href="pro.css"> 
+    <script src="script.js" defer></script>
+    <style>
+        body {
+font-family: Arial, sans-serif;
+background-color: #121212; /* Dark background for better contrast */
+color: #fff; /* White text for readability */
+margin: 0;
+padding: 0;
+box-sizing: border-box; /* Ensure proper box-sizing */
+}
+
+/* Center the form and give it some spacing */
+#progress-form {
+display: flex;
+flex-direction: column;
+max-width: 600px; /* Set max-width to fit the form */
+margin: 50px auto;
+padding: 30px;
+background: rgba(30, 30, 47, 0.8);
+border-radius: 15px;
+box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+border: 1px solid rgba(0, 221, 235, 0.3);
+width: 100%;
+box-sizing: border-box; /* Prevent overflow */
+}
+
+/* Stylish Input Fields */
+#progress-form input {
+width: 100%; /* Ensure input fields take full width */
+padding: 14px; /* Padding for input fields */
+margin-bottom: 20px; /* Spacing between fields */
+font-size: 16px; /* Font size */
+color: #fff; /* Text color */
+background: rgba(255, 255, 255, 0.1); /* Slightly transparent background */
+border: 2px solid #00C6FF; /* Border color */
+border-radius: 8px; /* Rounded corners */
+outline: none; /* Remove default focus outline */
+box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+transition: all 0.3s ease; /* Smooth transition for interactions */
+}
+
+/* Focus Effect on Inputs */
+#progress-form input:focus {
+background: rgba(255, 255, 255, 0.2); /* Slightly darker background on focus */
+border-color: #00ddeb; /* Highlight border color */
+box-shadow: 0 0 8px rgba(0, 221, 235, 0.7); /* Glowing effect on focus */
+}
+
+/* Stylish Label */
+#progress-form label {
+font-size: 14px; /* Slightly smaller font for labels */
+color: #00C6FF; /* Label color */
+margin-bottom: 5px;
+}
+
+/* Stylish Submit Button */
+#progress-form button {
+background: linear-gradient(135deg, #007BFF, #00C6FF);
+color: white;
+border: none;
+font-size: 16px;
+padding: 12px 20px;
+border-radius: 30px;
+cursor: pointer;
+box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+transition: all 0.3s ease;
+margin-bottom: 20px; /* Added margin to create space below the button */
+}
+
+/* Hover Effects for Submit Button */
+#progress-form button:hover {
+background: linear-gradient(135deg, #0056b3, #0096c7);
+transform: scale(1.05);
+box-shadow: 0 6px 20px rgba(0, 123, 255, 0.5);
+}
+
+/* Active Effects for Submit Button */
+#progress-form button:active {
+transform: scale(0.98);
+}
+
+/* Back to Home Button */
+.back-home {
+text-align: center;
+margin-top: 40px;
+}
+
+.back-home-btn {
+display: inline-block;
+padding: 12px 30px;
+font-size: 16px;
+font-weight: bold;
+color: #00ffff;
+background: rgba(255, 255, 255, 0.08);
+border: 1px solid #00ffff;
+border-radius: 12px;
+text-decoration: none;
+box-shadow: 0 0 12px rgba(0, 255, 255, 0.4);
+transition: all 0.3s ease;
+backdrop-filter: blur(10px);
+}
+
+.back-home-btn:hover {
+background: #00ffff;
+color: #000;
+box-shadow: 0 0 20px #00ffff, 0 0 30px #00ffff;
+}
+
+/* Ensure there's no overflow */
+* {
+box-sizing: border-box;
+}
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <h1>LLM Group</h1>
+        </div>
+        <nav class="nav">
+            <ul>
+                <li><a href="pro.html">Home</a></li>
+                <li><a href="pro.html#courses">Courses</a></li>
+                <li><a href="progress.html">Progress</a></li>
+                <li><a href="attendance.html">Attendance</a></li>
+                <li><a href="admin-calender.html">Calendar</a></li>
+            
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="progress-section">
+            <h2 style="text-align:center;">Employee Progress Tracker</h2>
+            <form id="progress-form">
+                <label for="name">Employee Name:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="skills">Skills Learned:</label>
+                <input type="text" id="skills" name="skills" required>
+
+                <label for="training">Training Completed:</label>
+                <input type="text" id="training" name="training" required>
+
+                <label for="rating">Performance Rating (1-5):</label>
+                <input type="number" id="rating" name="rating" min="1" max="5" required>
+
+                <button type="submit">Submit Progress</button>
+            </form>
+            <div id="progress-list">
+                <!-- Employee progress data will be dynamically loaded here -->
+            </div>
+        </section>
+
+        <div class="back-home">
+            <a href="pro.html" class="back-home-btn">Back to Home</a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content" style="text-align:center; margin-top: 30px;">
+            <p>&copy; 2025 LLM Solutions. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById("progress-form").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById("name").value;
+            const skills = document.getElementById("skills").value;
+            const training = document.getElementById("training").value;
+            const rating = document.getElementById("rating").value;
+
+            const response = await fetch("http://localhost:3001/progress", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ name, skills, training, rating })
+            });
+
+            const result = await response.json();
+            alert(result.message);
+            document.getElementById("progress-form").reset();
+            loadProgress();
+        });
+
+        async function loadProgress() {
+            const response = await fetch("http://localhost:3001/progress");
+            const data = await response.json();
+
+            const progressListElement = document.getElementById("progress-list");
+            progressListElement.innerHTML = "";
+
+            data.forEach(employee => {
+                const progressItem = document.createElement("div");
+                progressItem.classList.add("progress-item");
+                progressItem.innerHTML = `
+                    <h3>${employee.name}</h3>
+                    <p><strong>Skills Learned:</strong> ${employee.skills}</p>
+                    <p><strong>Training Completed:</strong> ${employee.training}</p>
+                    <p><strong>Performance Rating:</strong> ${employee.rating}</p>
+                `;
+                progressListElement.appendChild(progressItem);
+            });
+        }
+
+        window.onload = loadProgress;
+    </script>
+</body>
+</html>

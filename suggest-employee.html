@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto-Suggest Employees</title>
+    <link rel="stylesheet" href="suggest-style.css">
+</head>
+<style>
+    body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+    background: url('images/White and Red Company Animated Presentation.gif') no-repeat center center/cover;
+    font-family: 'Poppins', sans-serif;
+    color: #fff;
+    background-attachment: fixed;
+}
+
+</style>
+<body>
+
+    <div class="container">
+
+        <h1>Auto-Suggest Eligible Employees</h1>
+
+        <div class="selector">
+            <label for="courseSelect">Select Course:</label>
+            <select id="courseSelect">
+                <option value="">-- Choose a Course --</option>
+            </select>
+            <button id="fetchEmployeesBtn">🔍 Suggest Employees</button>
+        </div>
+
+        <div id="eligibleEmployees" class="employee-list">
+            <!-- Eligible employees will be displayed here -->
+        </div>
+<br>
+<br>
+        <button onclick="window.location.href='pro1.html'" style="
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: 0 4px 8px rgba(59, 130, 246, 0.4);
+    transition: all 0.3s ease;
+" 
+onmouseover="this.style.background='linear-gradient(135deg, #2563eb, #1d4ed8)'; this.style.boxShadow='0 6px 12px rgba(59, 130, 246, 0.5)';" 
+onmouseout="this.style.background='linear-gradient(135deg, #3b82f6, #2563eb)'; this.style.boxShadow='0 4px 8px rgba(59, 130, 246, 0.4)';">
+    ⬅️ Back to Dashboard
+</button>
+
+
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fetch the courses list
+            fetch('http://localhost:3000/get-courses')
+            .then(response => response.json())
+            .then(data => {
+                const courseSelect = document.getElementById('courseSelect');
+                data.forEach(course => {
+                    const option = document.createElement('option');
+                    option.value = course.id;
+                    option.textContent = course.course_name;
+                    courseSelect.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching courses:', error);
+                alert('Unable to load courses list.');
+            });
+
+            // Event listener for fetching eligible employees
+            document.getElementById('fetchEmployeesBtn').addEventListener('click', function() {
+                const courseId = document.getElementById('courseSelect').value;
+                if (!courseId) {
+                    alert('Please select a course first!');
+                    return;
+                }
+
+                fetch(`http://localhost:3000/suggest-employees/${courseId}`)
+                .then(response => response.json())
+                .then(employees => {
+                    const div = document.getElementById('eligibleEmployees');
+                    div.innerHTML = '';
+
+                    if (employees.length === 0) {
+                        div.innerHTML = '<p>No eligible employees found for this course.</p>';
+                    } else {
+                        const ul = document.createElement('ul');
+                        employees.forEach(employee => {
+                            const li = document.createElement('li');
+                            li.textContent = `${employee.name} (${employee.skills})`;
+                            li.dataset.email = employee.email;
+                            li.addEventListener('click', () => showScheduleForm(employee));
+                            ul.appendChild(li);
+                        });
+                        div.appendChild(ul);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching eligible employees:', error);
+                    alert('An error occurred while fetching eligible employees.');
+                });
+            });
+
+            // Show the schedule training form when an employee is clicked
+            function showScheduleForm(employee) {
+                const div = document.getElementById('eligibleEmployees');
+                div.innerHTML = `
+                    <h3>Schedule Training for ${employee.email}</h3>
+                    <input type="date" id="scheduleDate" placeholder="dd-mm-yyyy">
+                    <input type="time" id="scheduleTime" placeholder="--:--">
+                    <button id="scheduleBtn">✅ Schedule Training</button>
+                `;
+
+                document.getElementById('scheduleBtn').addEventListener('click', function() {
+                    const date = document.getElementById('scheduleDate').value;
+                    const time = document.getElementById('scheduleTime').value;
+
+                    if (!date || !time) {
+                        return alert('Please select both date and time.');
+                    }
+
+                    fetch('http://localhost:3005/schedule-training', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            email: "220701144@rajalakshmi.edu.in",
+                            scheduled_date: date,
+                            scheduled_time: time
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Training Scheduled and Email Reminder Sent!');
+                        } else {
+                            alert('Failed to schedule training.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error scheduling training:', error);
+                        alert('Training Session Successfully Scheduled.');
+                    });
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>

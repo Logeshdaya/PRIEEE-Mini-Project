@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Records</title>
+    <link rel="stylesheet" href="pro.css"> 
+    <script src="attendance.js" defer></script>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <h1>LLM Group</h1>
+        </div>
+        <nav class="nav">
+            <ul>
+                <li><a href="pro.html">Home</a></li>
+                <li><a href="pro.html#courses">Courses</a></li>
+                <li><a href="progress.html">Progress</a></li>
+                <li><a href="attendance.html">Attendance</a></li>
+                <li><a href="admin-calender.html">Calendar</a></li>
+            </ul>
+        </nav>
+    </header>
+    <style>
+        #attendance {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 80vh; /* Adjust height to center vertically */
+    flex-direction: column;
+    text-align: center;
+}
+
+/* Table Styles */
+table {
+    width: 70%; /* Adjust to a more optimal table size */
+    margin: 20px auto;
+    background: linear-gradient(135deg, #2a2a4e, #6610f2);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+    border-collapse: collapse;
+    backdrop-filter: blur(10px); /* Adding background blur effect */
+}
+
+/* Table Header */
+th {
+    padding: 16px;
+    background-color: #00C6FF; /* Lively cyan header */
+    color: #ffffff;
+    text-transform: uppercase;
+    font-weight: 600;
+    border-bottom: 2px solid #ffffff;
+    font-size: 18px;
+    letter-spacing: 1px;
+}
+
+/* Table Cells */
+td {
+    padding: 12px;
+    text-align: center;
+    font-size: 16px;
+    color: #ddd; /* Light text for contrast */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+td:hover {
+    background-color: rgba(0, 198, 255, 0.1); /* Hover effect */
+}
+
+/* Back to Dashboard button */
+.back-home {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.back-home-btn {
+  display: inline-block;
+  padding: 12px 30px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #00ffff;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid #00ffff;
+  border-radius: 12px;
+  text-decoration: none;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.4);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.back-home-btn:hover {
+  background: #00ffff;
+  color: #000;
+  box-shadow: 0 0 20px #00ffff, 0 0 30px #00ffff;
+}
+
+    </style>
+
+<main>
+    <section id="attendance">
+        <h2>Employee Attendance Records</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Employee Email</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="attendance-data">
+                    <!-- Attendance data will be loaded here dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+
+<div class="back-home" style="text-align: center;">
+    <a href="pro.html" class="back-home-btn">Back to Home</a>
+</div>
+<br>
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 LLM Solutions. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch('http://localhost:3003/get-attendance')
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.getElementById('attendance-data');
+                tableBody.innerHTML = '';
+                data.forEach(record => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${record.employee_email}</td>
+                        <td>${record.date}</td>
+                        <td>${record.status}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            })
+            .catch(error => console.error("Error fetching attendance:", error));
+        });
+    </script>
+</body>
+</html>
+
+
